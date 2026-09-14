@@ -1,0 +1,97 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Cliente {
+  id        Int      @id @default(autoincrement())
+  nome      String
+  telefone  String
+  email     String?
+  cpfCnpj   String?
+  endereco  String?
+  criadoEm  DateTime @default(now())
+
+  veiculos       Veiculo[]
+  ordensServico  OrdemServico[]
+}
+
+model Veiculo {
+  id        Int      @id @default(autoincrement())
+  placa     String   @unique
+  marca     String
+  modelo    String
+  ano       Int?
+  cor       String?
+  clienteId Int
+  cliente   Cliente  @relation(fields: [clienteId], references: [id], onDelete: Cascade)
+  criadoEm  DateTime @default(now())
+
+  ordensServico OrdemServico[]
+}
+
+model Funcionario {
+  id        Int      @id @default(autoincrement())
+  nome      String
+  cargo     String
+  telefone  String?
+  email     String?
+  salario   Float?
+  ativo     Boolean  @default(true)
+  criadoEm  DateTime @default(now())
+
+  ordensServico OrdemServico[]
+}
+
+// status: ABERTA | EM_ANDAMENTO | AGUARDANDO_PECA | CONCLUIDA | CANCELADA
+model OrdemServico {
+  id             Int          @id @default(autoincrement())
+  clienteId      Int
+  cliente        Cliente      @relation(fields: [clienteId], references: [id])
+  veiculoId      Int
+  veiculo        Veiculo      @relation(fields: [veiculoId], references: [id])
+  funcionarioId  Int?
+  funcionario    Funcionario? @relation(fields: [funcionarioId], references: [id])
+  descricao      String?
+  status         String       @default("ABERTA")
+  km             Int?
+  dataAbertura   DateTime     @default(now())
+  dataConclusao  DateTime?
+  valorTotal     Float        @default(0)
+
+  itens      ItemOrdemServico[]
+  pagamentos Pagamento[]
+}
+
+// tipo: SERVICO | PECA
+model ItemOrdemServico {
+  id             Int          @id @default(autoincrement())
+  ordemServicoId Int
+  ordemServico   OrdemServico @relation(fields: [ordemServicoId], references: [id], onDelete: Cascade)
+  tipo           String
+  descricao      String
+  quantidade     Float        @default(1)
+  valorUnitario  Float
+}
+
+// metodo: PIX | CARTAO
+// status: PENDENTE | APROVADO | RECUSADO | CANCELADO
+model Pagamento {
+  id             Int          @id @default(autoincrement())
+  ordemServicoId Int
+  ordemServico   OrdemServico @relation(fields: [ordemServicoId], references: [id])
+  metodo         String
+  status         String       @default("PENDENTE")
+  valor          Float
+  mpPaymentId    String?
+  mpPreferenceId String?
+  linkPagamento  String?
+  qrCode         String?
+  qrCodeBase64   String?
+  criadoEm       DateTime     @default(now())
+  atualizadoEm   DateTime     @updatedAt
+}
