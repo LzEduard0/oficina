@@ -40,11 +40,10 @@ export function Clientes() {
   }
 
   useEffect(() => {
-    carregar();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  useEffect(() => {
+    if (busca === '') {
+      carregar();
+      return;
+    }
     const t = setTimeout(() => carregar(busca), 300);
     return () => clearTimeout(t);
     // eslint-disable-next-line react-hooks/exhaustive-deps

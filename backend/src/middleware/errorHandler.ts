@@ -20,7 +20,7 @@ export function errorHandler(
     return res.status(400).json({ error: "Dados inválidos", detalhes: err.flatten() });
   }
 
-  const anyErr = err as { code?: string; message?: string };
+  const anyErr = err as { code?: string; message?: string; name?: string };
   if (anyErr?.message?.includes("MP_ACCESS_TOKEN")) {
     return res.status(400).json({ error: anyErr.message });
   }
@@ -29,6 +29,20 @@ export function errorHandler(
   }
   if (anyErr?.code === "P2002") {
     return res.status(409).json({ error: "Registro duplicado (violação de unicidade)" });
+  }
+  if (anyErr?.code === "P2021") {
+    console.error(err);
+    return res.status(500).json({
+      error:
+        "Banco de dados não inicializado: as tabelas ainda não existem. Rode `npx prisma migrate dev` dentro da pasta backend e reinicie o servidor.",
+    });
+  }
+  if (anyErr?.name === "PrismaClientInitializationError") {
+    console.error(err);
+    return res.status(500).json({
+      error:
+        "Não foi possível conectar ao banco de dados. Verifique se o arquivo backend/.env existe (copie de backend/.env.example) e se DATABASE_URL está definido.",
+    });
   }
 
   console.error(err);
