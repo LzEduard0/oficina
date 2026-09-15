@@ -21,9 +21,6 @@ export function errorHandler(
   }
 
   const anyErr = err as { code?: string; message?: string; name?: string };
-  if (anyErr?.message?.includes("MP_ACCESS_TOKEN")) {
-    return res.status(400).json({ error: anyErr.message });
-  }
   if (anyErr?.code === "P2025") {
     return res.status(404).json({ error: "Registro não encontrado" });
   }

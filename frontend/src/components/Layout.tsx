@@ -8,7 +8,6 @@ import {
   Receipt,
   Users,
   UserSquare2,
-  Wallet,
   Wrench,
   X,
 } from 'lucide-react';
@@ -19,7 +18,6 @@ const navItems = [
   { to: '/veiculos', label: 'Veículos', icone: Car },
   { to: '/funcionarios', label: 'Funcionários', icone: UserSquare2 },
   { to: '/ordens', label: 'Ordens de Serviço', icone: Wrench },
-  { to: '/pagamentos', label: 'Pagamentos', icone: Wallet },
 ];
 
 export function Layout() {

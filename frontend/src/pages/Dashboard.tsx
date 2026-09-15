@@ -108,7 +108,7 @@ function CartaoFaturamento({
           <p className="mt-2 text-2xl font-semibold">
             <span ref={ref}>{formatarMoeda(0)}</span>
           </p>
-          <p className="text-xs text-[var(--color-text-muted)]">{quantidade} pagamento(s) aprovado(s)</p>
+          <p className="text-xs text-[var(--color-text-muted)]">{quantidade} ordem(ns) concluída(s)</p>
         </div>
         <div className="rounded-xl bg-[var(--color-primary)]/10 p-2.5 text-[var(--color-primary)]">
           <Icone size={20} />

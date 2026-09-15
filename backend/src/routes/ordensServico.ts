@@ -46,7 +46,6 @@ router.get(
         veiculo: true,
         funcionario: true,
         itens: true,
-        pagamentos: true,
       },
     });
     res.json(ordens);
@@ -63,7 +62,6 @@ router.get(
         veiculo: true,
         funcionario: true,
         itens: true,
-        pagamentos: true,
       },
     });
     res.json(ordem);
@@ -129,7 +127,7 @@ router.patch(
       where: { id: Number(req.params.id) },
       data: {
         status,
-        dataConclusao: status === "CONCLUIDA" ? new Date() : undefined,
+        dataConclusao: status === "CONCLUIDA" ? new Date() : null,
       },
     });
     res.json(ordem);

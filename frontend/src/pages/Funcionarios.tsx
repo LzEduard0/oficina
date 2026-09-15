@@ -169,11 +169,8 @@ export function Funcionarios() {
                 </span>
               )}
             </div>
-            <button onClick={() => alternarAtivo(funcionario)} className="w-fit">
-              <Badge status={funcionario.ativo ? 'APROVADO' : 'CANCELADO'} />
-              <span className="ml-2 text-xs text-[var(--color-text-muted)]">
-                {funcionario.ativo ? 'Ativo' : 'Inativo'}
-              </span>
+            <button onClick={() => alternarAtivo(funcionario)} className="w-fit" title="Clique para alternar">
+              <Badge status={funcionario.ativo ? 'ATIVO' : 'INATIVO'} />
             </button>
           </Card>
         ))}

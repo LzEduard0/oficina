@@ -7,7 +7,6 @@ import { Veiculos } from './pages/Veiculos';
 import { Funcionarios } from './pages/Funcionarios';
 import { OrdensServico } from './pages/OrdensServico';
 import { OrdemServicoDetalhe } from './pages/OrdemServicoDetalhe';
-import { Pagamentos } from './pages/Pagamentos';
 
 export default function App() {
   return (
@@ -21,7 +20,6 @@ export default function App() {
             <Route path="funcionarios" element={<Funcionarios />} />
             <Route path="ordens" element={<OrdensServico />} />
             <Route path="ordens/:id" element={<OrdemServicoDetalhe />} />
-            <Route path="pagamentos" element={<Pagamentos />} />
           </Route>
         </Routes>
       </BrowserRouter>

@@ -22,18 +22,18 @@ function inicioFimDoAno(ano: number) {
   return { inicio, fim };
 }
 
-// Faturamento = soma dos pagamentos APROVADOS no período (dinheiro que efetivamente entrou)
-async function somarPagamentosAprovados(inicio: Date, fim: Date) {
-  const resultado = await prisma.pagamento.aggregate({
-    _sum: { valor: true },
+// Faturamento = soma do valor das ordens de serviço CONCLUÍDAS no período
+async function somarOrdensConcluidas(inicio: Date, fim: Date) {
+  const resultado = await prisma.ordemServico.aggregate({
+    _sum: { valorTotal: true },
     _count: { _all: true },
     where: {
-      status: "APROVADO",
-      atualizadoEm: { gte: inicio, lte: fim },
+      status: "CONCLUIDA",
+      dataConclusao: { gte: inicio, lte: fim },
     },
   });
   return {
-    total: resultado._sum.valor ?? 0,
+    total: resultado._sum.valorTotal ?? 0,
     quantidade: resultado._count._all,
   };
 }
@@ -43,7 +43,7 @@ router.get(
   asyncHandler(async (req, res) => {
     const dataParam = req.query.data ? new Date(String(req.query.data)) : new Date();
     const { inicio, fim } = inicioFimDoDia(dataParam);
-    const dados = await somarPagamentosAprovados(inicio, fim);
+    const dados = await somarOrdensConcluidas(inicio, fim);
     res.json({ periodo: "dia", data: inicio.toISOString().slice(0, 10), ...dados });
   })
 );
@@ -55,7 +55,7 @@ router.get(
     const ano = req.query.ano ? Number(req.query.ano) : hoje.getFullYear();
     const mes = req.query.mes ? Number(req.query.mes) : hoje.getMonth() + 1;
     const { inicio, fim } = inicioFimDoMes(ano, mes);
-    const dados = await somarPagamentosAprovados(inicio, fim);
+    const dados = await somarOrdensConcluidas(inicio, fim);
     res.json({ periodo: "mes", ano, mes, ...dados });
   })
 );
@@ -66,12 +66,12 @@ router.get(
     const hoje = new Date();
     const ano = req.query.ano ? Number(req.query.ano) : hoje.getFullYear();
     const { inicio, fim } = inicioFimDoAno(ano);
-    const dados = await somarPagamentosAprovados(inicio, fim);
+    const dados = await somarOrdensConcluidas(inicio, fim);
 
     const meses = [];
     for (let mes = 1; mes <= 12; mes++) {
       const { inicio: iniMes, fim: fimMes } = inicioFimDoMes(ano, mes);
-      const dadosMes = await somarPagamentosAprovados(iniMes, fimMes);
+      const dadosMes = await somarOrdensConcluidas(iniMes, fimMes);
       meses.push({ mes, ...dadosMes });
     }
 
@@ -88,9 +88,9 @@ router.get(
     const { inicio: inicioAno, fim: fimAno } = inicioFimDoAno(hoje.getFullYear());
 
     const [dia, mes, ano, ordensAbertas, ordensConcluidas] = await Promise.all([
-      somarPagamentosAprovados(inicioDia, fimDia),
-      somarPagamentosAprovados(inicioMes, fimMes),
-      somarPagamentosAprovados(inicioAno, fimAno),
+      somarOrdensConcluidas(inicioDia, fimDia),
+      somarOrdensConcluidas(inicioMes, fimMes),
+      somarOrdensConcluidas(inicioAno, fimAno),
       prisma.ordemServico.count({ where: { status: { in: ["ABERTA", "EM_ANDAMENTO", "AGUARDANDO_PECA"] } } }),
       prisma.ordemServico.count({ where: { status: "CONCLUIDA" } }),
     ]);

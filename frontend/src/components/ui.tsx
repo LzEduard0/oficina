@@ -67,10 +67,8 @@ const badgeCores: Record<string, string> = {
   AGUARDANDO_PECA: 'bg-orange-500/15 text-orange-600 dark:text-orange-400',
   CONCLUIDA: 'bg-emerald-500/15 text-emerald-600 dark:text-emerald-400',
   CANCELADA: 'bg-gray-500/15 text-gray-500',
-  PENDENTE: 'bg-amber-500/15 text-amber-600 dark:text-amber-400',
-  APROVADO: 'bg-emerald-500/15 text-emerald-600 dark:text-emerald-400',
-  RECUSADO: 'bg-red-500/15 text-red-600 dark:text-red-400',
-  CANCELADO: 'bg-gray-500/15 text-gray-500',
+  ATIVO: 'bg-emerald-500/15 text-emerald-600 dark:text-emerald-400',
+  INATIVO: 'bg-gray-500/15 text-gray-500',
 };
 
 const badgeTextos: Record<string, string> = {
@@ -79,10 +77,8 @@ const badgeTextos: Record<string, string> = {
   AGUARDANDO_PECA: 'Aguardando peça',
   CONCLUIDA: 'Concluída',
   CANCELADA: 'Cancelada',
-  PENDENTE: 'Pendente',
-  APROVADO: 'Aprovado',
-  RECUSADO: 'Recusado',
-  CANCELADO: 'Cancelado',
+  ATIVO: 'Ativo',
+  INATIVO: 'Inativo',
 };
 
 export function Badge({ status }: { status: string }) {

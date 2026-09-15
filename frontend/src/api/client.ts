@@ -4,9 +4,7 @@ import type {
   Funcionario,
   FaturamentoAno,
   FaturamentoResumo,
-  MetodoPagamento,
   OrdemServico,
-  Pagamento,
   StatusOrdem,
   TipoItem,
   Veiculo,
@@ -82,10 +80,3 @@ export const buscarResumoFaturamento = () =>
   api.get<FaturamentoResumo>('/faturamento/resumo').then((r) => r.data);
 export const buscarFaturamentoAno = (ano: number) =>
   api.get<FaturamentoAno>('/faturamento/ano', { params: { ano } }).then((r) => r.data);
-
-// Pagamentos
-export const listarPagamentos = () => api.get<Pagamento[]>('/pagamentos').then((r) => r.data);
-export const criarPagamento = (dados: { ordemServicoId: number; metodo: MetodoPagamento; emailPagador?: string }) =>
-  api.post<Pagamento>('/pagamentos', dados).then((r) => r.data);
-export const consultarStatusPagamento = (id: number) =>
-  api.get<Pagamento>(`/pagamentos/${id}/status`).then((r) => r.data);

@@ -63,8 +63,7 @@ model OrdemServico {
   dataConclusao  DateTime?
   valorTotal     Float        @default(0)
 
-  itens      ItemOrdemServico[]
-  pagamentos Pagamento[]
+  itens ItemOrdemServico[]
 }
 
 // tipo: SERVICO | PECA
@@ -76,22 +75,4 @@ model ItemOrdemServico {
   descricao      String
   quantidade     Float        @default(1)
   valorUnitario  Float
-}
-
-// metodo: PIX | CARTAO
-// status: PENDENTE | APROVADO | RECUSADO | CANCELADO
-model Pagamento {
-  id             Int          @id @default(autoincrement())
-  ordemServicoId Int
-  ordemServico   OrdemServico @relation(fields: [ordemServicoId], references: [id])
-  metodo         String
-  status         String       @default("PENDENTE")
-  valor          Float
-  mpPaymentId    String?
-  mpPreferenceId String?
-  linkPagamento  String?
-  qrCode         String?
-  qrCodeBase64   String?
-  criadoEm       DateTime     @default(now())
-  atualizadoEm   DateTime     @updatedAt
 }

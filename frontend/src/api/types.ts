@@ -64,26 +64,6 @@ export interface OrdemServico {
   dataConclusao?: string | null;
   valorTotal: number;
   itens: ItemOrdemServico[];
-  pagamentos?: Pagamento[];
-}
-
-export type MetodoPagamento = 'PIX' | 'CARTAO';
-export type StatusPagamento = 'PENDENTE' | 'APROVADO' | 'RECUSADO' | 'CANCELADO';
-
-export interface Pagamento {
-  id: number;
-  ordemServicoId: number;
-  ordemServico?: OrdemServico;
-  metodo: MetodoPagamento;
-  status: StatusPagamento;
-  valor: number;
-  mpPaymentId?: string | null;
-  mpPreferenceId?: string | null;
-  linkPagamento?: string | null;
-  qrCode?: string | null;
-  qrCodeBase64?: string | null;
-  criadoEm: string;
-  atualizadoEm: string;
 }
 
 export interface FaturamentoPeriodo {

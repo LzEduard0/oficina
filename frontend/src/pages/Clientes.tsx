@@ -178,7 +178,7 @@ export function Clientes() {
         <Field label="Telefone">
           <Input value={form.telefone} onChange={(e) => setForm({ ...form, telefone: e.target.value })} />
         </Field>
-        <Field label="E-mail" hint="Opcional, usado para enviar o link de pagamento.">
+        <Field label="E-mail" hint="Opcional.">
           <Input type="email" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} />
         </Field>
         <Field label="CPF/CNPJ">

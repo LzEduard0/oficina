@@ -8,7 +8,6 @@ import veiculosRouter from "./routes/veiculos";
 import funcionariosRouter from "./routes/funcionarios";
 import ordensServicoRouter from "./routes/ordensServico";
 import faturamentoRouter from "./routes/faturamento";
-import pagamentosRouter from "./routes/pagamentos";
 
 const app = express();
 
@@ -22,7 +21,6 @@ app.use("/api/veiculos", veiculosRouter);
 app.use("/api/funcionarios", funcionariosRouter);
 app.use("/api/ordens-servico", ordensServicoRouter);
 app.use("/api/faturamento", faturamentoRouter);
-app.use("/api/pagamentos", pagamentosRouter);
 
 app.use(errorHandler);
 
